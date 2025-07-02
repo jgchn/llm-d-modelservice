@@ -27,6 +27,7 @@ dependencies:
   - name: "inferencepool"
     version: "0.0.0"
     repository: "file://../inferencepool"
+    # repository: "oci://registry.k8s.io/gateway-api-inference-extension/charts"
 
 maintainers:
   - name: "Jing Chen"

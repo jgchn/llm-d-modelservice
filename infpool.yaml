@@ -1,0 +1,83 @@
+apiVersion: v1
+items:
+- apiVersion: inference.networking.x-k8s.io/v1alpha2
+  kind: InferencePool
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: original
+      meta.helm.sh/release-namespace: default
+    creationTimestamp: "2025-07-02T18:07:35Z"
+    generation: 1
+    labels:
+      app.kubernetes.io/managed-by: Helm
+    name: original-llm-d-modelservice-inference-pool
+    namespace: default
+    resourceVersion: "686104"
+    uid: 7d3c4b1d-5466-4c72-9017-1d23118e6735
+  spec:
+    extensionRef:
+      failureMode: FailClose
+      group: ""
+      kind: Service
+      name: original-llm-d-modelservice-epp-service
+    selector:
+      llm-d.ai/inferenceServing: "true"
+      llm-d.ai/model: original-llm-d-modelservice
+    targetPortNumber: 8000
+  status:
+    parent:
+    - conditions:
+      - lastTransitionTime: "2025-07-02T18:07:35Z"
+        message: Referenced by an HTTPRoute accepted by the parentRef Gateway
+        observedGeneration: 1
+        reason: Accepted
+        status: "True"
+        type: Accepted
+      parentRef:
+        apiVersion: gateway.networking.k8s.io/v1
+        kind: Gateway
+        name: llm-d-inference-gateway
+        namespace: default
+- apiVersion: inference.networking.x-k8s.io/v1alpha2
+  kind: InferencePool
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: vllm-sim
+      meta.helm.sh/release-namespace: default
+    creationTimestamp: "2025-07-02T18:23:02Z"
+    generation: 4
+    labels:
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: vllm-sim-epp
+      app.kubernetes.io/version: 0.0.0
+    name: vllm-sim
+    namespace: default
+    resourceVersion: "689120"
+    uid: 4841d4e6-4bfc-4a88-a8b3-e1a090d964b2
+  spec:
+    extensionRef:
+      failureMode: FailClose
+      group: ""
+      kind: Service
+      name: vllm-sim-epp
+    selector:
+      llm-d.ai/inferenceServing: "true"
+      llm-d.ai/model: vllm-sim-llm-d-modelservice
+    targetPortNumber: 8000
+  status:
+    parent:
+    - conditions:
+      - lastTransitionTime: "2025-07-02T18:23:02Z"
+        message: Referenced by an HTTPRoute accepted by the parentRef Gateway
+        observedGeneration: 1
+        reason: Accepted
+        status: "True"
+        type: Accepted
+      parentRef:
+        apiVersion: gateway.networking.k8s.io/v1
+        kind: Gateway
+        name: llm-d-inference-gateway
+        namespace: default
+kind: List
+metadata:
+  resourceVersion: ""

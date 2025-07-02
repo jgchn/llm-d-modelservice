@@ -1,0 +1,235 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2025-07-02T18:11:20Z"
+  generateName: vllm-sim-epp-558b5548c-
+  labels:
+    inferencepool: vllm-sim-epp
+    pod-template-hash: 558b5548c
+  name: vllm-sim-epp-558b5548c-jm4z8
+  namespace: default
+  ownerReferences:
+  - apiVersion: apps/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: ReplicaSet
+    name: vllm-sim-epp-558b5548c
+    uid: 91f97dd4-994d-4d70-bb39-7ce633f8a148
+  resourceVersion: "686729"
+  uid: df26f8b0-87e0-40bf-b30d-d6922fed1ecc
+spec:
+  containers:
+  - args:
+    - -poolName
+    - vllm-sim
+    - -poolNamespace
+    - default
+    - -v
+    - "3"
+    - -grpcPort
+    - "9002"
+    - -grpcHealthPort
+    - "9003"
+    - -metricsPort
+    - "9090"
+    env:
+    - name: ENABLE_KVCACHE_AWARE_SCORER
+      value: "false"
+    - name: ENABLE_LOAD_AWARE_SCORER
+      value: "true"
+    - name: ENABLE_PREFIX_AWARE_SCORER
+      value: "true"
+    - name: ENABLE_SESSION_AWARE_SCORER
+      value: "false"
+    - name: KVCACHE_AWARE_SCORER_WEIGHT
+      value: "1"
+    - name: KVCACHE_INDEXER_REDIS_ADDR
+      value: "1"
+    - name: PD_ENABLED
+      value: "false"
+    - name: PD_PROMPT_LEN_THRESHOLD
+      value: "10"
+    - name: PREFILL_ENABLE_KVCACHE_AWARE_SCORER
+      value: "false"
+    - name: PREFILL_ENABLE_LOAD_AWARE_SCORER
+      value: "false"
+    - name: PREFILL_ENABLE_PREFIX_AWARE_SCORER
+      value: "false"
+    - name: PREFILL_ENABLE_SESSION_AWARE_SCORER
+      value: "false"
+    - name: PREFILL_KVCACHE_AWARE_SCORER_WEIGHT
+      value: "1"
+    - name: PREFILL_KVCACHE_INDEXER_REDIS_ADDR
+      value: "1"
+    - name: PREFILL_PREFIX_AWARE_SCORER_WEIGHT
+      value: "1"
+    - name: PREFILL_SESSION_AWARE_SCORER_WEIGHT
+      value: "1"
+    - name: PREFIX_AWARE_SCORER_WEIGHT
+      value: "2"
+    - name: SESSION_AWARE_SCORER_WEIGHT
+      value: "1"
+    image: ghcr.io/llm-d/llm-d-inference-scheduler:0.0.3
+    imagePullPolicy: Always
+    name: epp
+    ports:
+    - containerPort: 9002
+      name: grpc
+      protocol: TCP
+    - containerPort: 9003
+      name: grpc-health
+      protocol: TCP
+    - containerPort: 9090
+      name: metrics
+      protocol: TCP
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-9l4pf
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: kind-control-plane
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: vllm-sim-epp
+  serviceAccountName: vllm-sim-epp
+  terminationGracePeriodSeconds: 130
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: kube-api-access-9l4pf
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2025-07-02T18:11:21Z"
+    status: "True"
+    type: PodReadyToStartContainers
+  - lastProbeTime: null
+    lastTransitionTime: "2025-07-02T18:11:20Z"
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2025-07-02T18:11:21Z"
+    status: "True"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2025-07-02T18:11:21Z"
+    status: "True"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2025-07-02T18:11:20Z"
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: containerd://a0b5c42f13fdb111e36dca46d4f7b3dd15e2c6247b644cecd2aa9ff6efd601cb
+    image: ghcr.io/llm-d/llm-d-inference-scheduler:0.0.3
+    imageID: ghcr.io/llm-d/llm-d-inference-scheduler@sha256:359b2e4c572878f9b2089782ee09b576c2b45e680869cebaf7a627756c07f139
+    lastState: {}
+    name: epp
+    ready: true
+    restartCount: 0
+    started: true
+    state:
+      running:
+        startedAt: "2025-07-02T18:11:21Z"
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-9l4pf
+      readOnly: true
+      recursiveReadOnly: Disabled
+  hostIP: 10.89.0.2
+  hostIPs:
+  - ip: 10.89.0.2
+  phase: Running
+  podIP: 10.244.0.141
+  podIPs:
+  - ip: 10.244.0.141
+  qosClass: BestEffort
+  startTime: "2025-07-02T18:11:20Z"
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  annotations:
+    meta.helm.sh/release-name: vllm-sim
+    meta.helm.sh/release-namespace: default
+  creationTimestamp: "2025-07-02T18:11:20Z"
+  generation: 1
+  labels:
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 0.0.1
+    helm.sh/chart: llm-d-modelservice-0.0.5
+  name: vllm-sim-llm-d-modelservice-http-route
+  namespace: default
+  resourceVersion: "686703"
+  uid: 555e68d1-4162-445f-9489-f6d198c4aa19
+spec:
+  parentRefs:
+  - group: gateway.networking.k8s.io
+    kind: Gateway
+    name: llm-d-inference-gateway
+  rules:
+  - backendRefs:
+    - group: inference.networking.x-k8s.io
+      kind: InferencePool
+      name: vllm-sim
+      port: 8000
+      weight: 1
+    matches:
+    - headers:
+      - name: x-model-name
+        type: Exact
+        value: random
+      path:
+        type: PathPrefix
+        value: /
+status:
+  parents:
+  - conditions:
+    - lastTransitionTime: "2025-07-02T18:11:20Z"
+      message: Route was valid
+      observedGeneration: 1
+      reason: Accepted
+      status: "True"
+      type: Accepted
+    - lastTransitionTime: "2025-07-02T18:11:20Z"
+      message: All references resolved
+      observedGeneration: 1
+      reason: ResolvedRefs
+      status: "True"
+      type: ResolvedRefs
+    controllerName: istio.io/gateway-controller
+    parentRef:
+      group: gateway.networking.k8s.io
+      kind: Gateway
+      name: llm-d-inference-gateway

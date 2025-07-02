@@ -52,20 +52,20 @@ prefill:
         protocol: TCP
     mountModelVolume: true
 
-endpointPicker:
-  # This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
-  service:
-    # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
-    type: ClusterIP
-    # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
-    port: 9002
-    targetPort: 9002
-    appProtocol: http2
-  debugLevel: 6
-  disableReadinessProbe: true
-  disableLivenessProbe: true
-  replicas: 1
-  permissions: pod-read
+# endpointPicker:
+#   # This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
+#   service:
+#     # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
+#     type: ClusterIP
+#     # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
+#     port: 9002
+#     targetPort: 9002
+#     appProtocol: http2
+#   debugLevel: 6
+#   disableReadinessProbe: true
+#   disableLivenessProbe: true
+#   replicas: 1
+#   permissions: pod-read
 
 inferencepool:
   inferenceExtension:
@@ -99,4 +99,6 @@ inferencepool:
     modelServers:
       matchLabels:
       # Should be unique for each model service?
-        llmd.ai: epp
+        # llm-d.ai/epp: vllm-sim
+        llm-d.ai/inferenceServing: "true"
+        llm-d.ai/model: vllm-sim-llm-d-modelservice
