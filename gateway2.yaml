@@ -1,0 +1,74 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"gateway.networking.k8s.io/v1","kind":"Gateway","metadata":{"annotations":{},"name":"inference-gateway","namespace":"e2e-solution"},"spec":{"gatewayClassName":"kgateway","infrastructure":{"parametersRef":{"group":"gateway.kgateway.dev","kind":"GatewayParameters","name":"inference-gateway-params"}},"listeners":[{"allowedRoutes":{"namespaces":{"from":"Same"}},"name":"http","port":80,"protocol":"HTTP"}]}}
+  creationTimestamp: "2025-05-28T14:30:23Z"
+  generation: 1
+  name: inference-gateway
+  namespace: e2e-solution
+  resourceVersion: "370140052"
+  uid: 8d594455-5f38-48d6-8e80-0829cb80c779
+spec:
+  gatewayClassName: kgateway
+  infrastructure:
+    parametersRef:
+      group: gateway.kgateway.dev
+      kind: GatewayParameters
+      name: inference-gateway-params
+  listeners:
+  - allowedRoutes:
+      namespaces:
+        from: Same
+    name: http
+    port: 80
+    protocol: HTTP
+status:
+  addresses:
+  - type: IPAddress
+    value: 172.30.84.206
+  conditions:
+  - lastTransitionTime: "2025-05-28T14:30:23Z"
+    message: ""
+    observedGeneration: 1
+    reason: Accepted
+    status: "True"
+    type: Accepted
+  - lastTransitionTime: "2025-05-28T14:30:23Z"
+    message: ""
+    observedGeneration: 1
+    reason: Programmed
+    status: "True"
+    type: Programmed
+  listeners:
+  - attachedRoutes: 1
+    conditions:
+    - lastTransitionTime: "2025-05-28T14:30:23Z"
+      message: ""
+      observedGeneration: 1
+      reason: Accepted
+      status: "True"
+      type: Accepted
+    - lastTransitionTime: "2025-05-28T14:30:23Z"
+      message: ""
+      observedGeneration: 1
+      reason: NoConflicts
+      status: "False"
+      type: Conflicted
+    - lastTransitionTime: "2025-05-28T14:30:23Z"
+      message: ""
+      observedGeneration: 1
+      reason: ResolvedRefs
+      status: "True"
+      type: ResolvedRefs
+    - lastTransitionTime: "2025-05-28T14:30:23Z"
+      message: ""
+      observedGeneration: 1
+      reason: Programmed
+      status: "True"
+      type: Programmed
+    name: http
+    supportedKinds:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute

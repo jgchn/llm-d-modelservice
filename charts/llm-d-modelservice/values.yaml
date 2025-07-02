@@ -3,8 +3,7 @@
 # This values.yaml file creates the resources for random
 
 multinode: false          # If true, creates LWS instead of deployments
-inferencePool: true
-inferenceModel: true
+inferencePool: false
 httpRoute: true
 
 routing:
@@ -67,3 +66,37 @@ endpointPicker:
   disableLivenessProbe: true
   replicas: 1
   permissions: pod-read
+
+inferencepool:
+  inferenceExtension:
+    image:
+      name: llm-d-inference-scheduler
+      hub: "ghcr.io/llm-d"
+      tag: "0.0.3"
+      pullPolicy: "Always"
+    env:
+      ENABLE_KVCACHE_AWARE_SCORER: "false"
+      ENABLE_LOAD_AWARE_SCORER: "true"
+      ENABLE_PREFIX_AWARE_SCORER: "true"
+      ENABLE_SESSION_AWARE_SCORER: "false"
+      KVCACHE_AWARE_SCORER_WEIGHT: "1"
+      KVCACHE_INDEXER_REDIS_ADDR: "1"
+      PD_ENABLED: "false"
+      PD_PROMPT_LEN_THRESHOLD: "10"
+      PREFILL_ENABLE_KVCACHE_AWARE_SCORER: "false"
+      PREFILL_ENABLE_LOAD_AWARE_SCORER: "false"
+      PREFILL_ENABLE_PREFIX_AWARE_SCORER: "false"
+      PREFILL_ENABLE_SESSION_AWARE_SCORER: "false"
+      PREFILL_KVCACHE_AWARE_SCORER_WEIGHT: "1"
+      PREFILL_KVCACHE_INDEXER_REDIS_ADDR: "1"
+      PREFILL_PREFIX_AWARE_SCORER_WEIGHT: "1"
+      PREFILL_SESSION_AWARE_SCORER_WEIGHT: "1"
+      PREFIX_AWARE_SCORER_WEIGHT: "2"
+      SESSION_AWARE_SCORER_WEIGHT: "1"
+  inferencePool:
+    targetPortNumber: 8000
+    modelServerType: vllm
+    modelServers:
+      matchLabels:
+      # Should be unique for each model service?
+        llmd.ai: epp

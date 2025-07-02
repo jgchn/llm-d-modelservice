@@ -23,6 +23,11 @@ version: 0.0.5
 # It is recommended to use it with quotes.
 appVersion: "0.0.1"
 
+dependencies:
+  - name: "inferencepool"
+    version: "0.0.0"
+    repository: "file://../inferencepool"
+
 maintainers:
   - name: "Jing Chen"
     email: "jing.chen2@ibm.com"

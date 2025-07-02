@@ -1,0 +1,6 @@
+dependencies:
+- name: inferencepool
+  repository: file://../inferencepool
+  version: 0.0.0
+digest: sha256:0192f4bb8a73751a9d21472752bd631ff3f373a40f65e4e7275d595c9ea61bc2
+generated: "2025-07-01T21:56:37.179851-04:00"

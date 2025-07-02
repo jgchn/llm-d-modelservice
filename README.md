@@ -15,7 +15,7 @@ See [examples](https://llm-d-incubation.github.io/llm-d-modelservice/charts/llm-
 ## Values
 Below are the values you can set.
 | Key                                    | Description                                                                                                       | Type         | Default                                     |
-|----------------------------------------|-------------------------------------------------------------------------------------------------------------------|--------------|---------------------------------------------|
+| -------------------------------------- | ----------------------------------------------------------------------------------------------------------------- | ------------ | ------------------------------------------- |
 | `multinode`                            | Determines whether to create P/D using Deployments (false) or LWS (true)                                          | bool         | `false`                                     |
 | `inferencePool`                        | If true, creates a InferencePool object                                                                           | bool         | `false`                                     |
 | `inferenceModel`                       | If true, creates a InferenceModel object                                                                          | bool         | `false`                                     |
@@ -36,7 +36,7 @@ Below are the values you can set.
 | `decode.containers[*].command`         | List of commands for the decode container.                                                                        | List[string] | []                                          |
 | `decode.containers[*].ports`           | List of ports for the decode container.                                                                           | List[Port]   | []                                          |
 | `prefill`                              | Same fields supported in `decode`                                                                                 | See above    | See above                                   |
-| `endpointPicker.service.permissions`          | Role created for the Inference Scheduler                                  | string       | N/A                                   |
+| `endpointPicker.service.permissions`   | Role created for the Inference Scheduler                                                                          | string       | N/A                                         |
 | `endpointPicker.service.type`          | Type of Service created for the Inference Scheduler (Endpoint Picker) deployment                                  | string       | ClusterIP                                   |
 | `endpointPicker.service.port`          | The port the Inference Scheduler listens on                                                                       | int          | 9002                                        |
 | `endpointPicker.service.targetPort`    | The target port the Inference Scheduler listens on                                                                | int          | 9002                                        |
