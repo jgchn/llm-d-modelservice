@@ -17,6 +17,9 @@ routing:
     kind: Gateway
     name: inference-gateway-2
 
+modelArtifacts:
+  uri: "pvc://vllm-llama-storage-claim/hub/models--TroyDoesAI--Llama-3.1-8B-Instruct/snapshots/3c168bd163fe098ebf4f7f7cbc731c53fee91d5a"
+
 # describe decode pods
 decode:
   replicas: 1
@@ -29,7 +32,7 @@ decode:
     #   - serve
     args:
       - "--model"
-      - "facebook/opt-125m"
+      - "/model-cache/hub/models--TroyDoesAI--Llama-3.1-8B-Instruct/snapshots/3c168bd163fe098ebf4f7f7cbc731c53fee91d5a"
       - "--served-model-name"
       - "facebook/opt-125m"
       - --data-parallel-size
@@ -37,21 +40,21 @@ decode:
       - --data-parallel-rank
       - "0"
       - --data-parallel-address
-      - "rank0"
+      - "localhost"
       - --data-parallel-rpc-port
       - "13345"
       - "--port"
       - "8002"
-    ports:
-      - containerPort: 8002
-        protocol: TCP
     env:
       - name: "CUDA_VISIBLE_DEVICES"
         value: "0"
+    ports:
+      - containerPort: 8002
+        protocol: TCP
     resources:
       limits:
         nvidia.com/gpu: 2
-    mountModelVolume: false
+    mountModelVolume: true
   - name: "rank1"
     image: "quay.io/vllm/automation-vllm:llm-d-njhill-ext-lb-dp"
     imagePullPolicy: IfNotPresent
@@ -60,7 +63,7 @@ decode:
     #   - serve
     args:
       - "--model"
-      - "facebook/opt-125m"
+      - "/model-cache/hub/models--TroyDoesAI--Llama-3.1-8B-Instruct/snapshots/3c168bd163fe098ebf4f7f7cbc731c53fee91d5a"
       - "--served-model-name"
       - "facebook/opt-125m"
       - --data-parallel-size
@@ -68,21 +71,21 @@ decode:
       - --data-parallel-rank
       - "1"
       - --data-parallel-address
-      - "rank0"
+      - "localhost"
       - --data-parallel-rpc-port
       - "13345"
       - "--port"
       - "8001"
     env:
       - name: "CUDA_VISIBLE_DEVICES"
-        value: "0"
+        value: "1"
     ports:
       - containerPort: 8001
         protocol: TCP
     resources:
       limits:
         nvidia.com/gpu: 2
-    mountModelVolume: false
+    mountModelVolume: true
 
 endpointPicker:
   # This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/

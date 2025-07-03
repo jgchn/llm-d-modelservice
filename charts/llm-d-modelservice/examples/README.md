@@ -88,3 +88,23 @@ helm install [RELEASE-NAME] llm-d-modelservice/llm-d-modelservice -f [VALUES-FIL
     ```
     {"choices":[{"finish_reason":"length","index":0,"logprobs":null,"prompt_logprobs":null,"stop_reason":null,"text":" That is my dad. He was a wautdig with a shooting blade on"}],"created":1751031325,"id":"cmpl-aca48bc2-fe95-4c3b-843d-1dbcf94c40c7","kv_transfer_params":null,"model":"facebook/opt-125m","object":"text_completion","usage":{"completion_tokens":16,"prompt_tokens":4,"prompt_tokens_details":null,"total_tokens":20}}
     ```
+
+
+
+
+    curl http://localhost:8000
+
+    curl http://localhost:8002/v1/completions -vvv \
+        -H "Content-Type: application/json" \
+        -d '{
+        "model": "facebook/opt-125m",
+        "prompt": "Hello, "
+    }'
+
+
+    curl -i -X POST localhost:8002/v1/completions -H 'Content-Type: application/json' -d '{
+    "model": "facebook/opt-125m",
+    "prompt": "What is the best pizza in the world?",
+    "max_tokens": 2048,
+    "temperature": "0.5"
+}'

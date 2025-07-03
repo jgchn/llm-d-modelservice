@@ -65,3 +65,12 @@ We welcome contributions in the form of a GitHub issue or pull request. Please o
 
 ## Contact
 Get involved or ask questions in the `#sig-model-service` channel in the `llm-d` Slack workspace! Details on how to join the workspace can be found [here](https://github.com/llm-d/llm-d?tab=readme-ov-file#contribute).
+
+
+
+    curl http://localhost:8002/v1/completions -vvv \
+        -H "Content-Type: application/json" \
+        -d '{
+        "model": "facebook/opt-125m",
+        "prompt": "Hello, "
+    }'

@@ -156,8 +156,8 @@ resources:
 {{ include "llm-d-modelservice.fullname" . }}-sa
 {{- end }}
 
-{{/* 
-EPP service account name 
+{{/*
+EPP service account name
 Context is helm root context
 */}}
 {{- define "llm-d-modelservice.eppServiceAccountName" -}}
@@ -174,7 +174,7 @@ Context is .Values.modelArtifacts
 {{- $path := last $parsedArtifacts -}}
 {{- if eq $protocol "hf" -}}
 - name: model-storage
-  emptyDir: 
+  emptyDir:
     sizeLimit: {{ default "0" .size }}
 {{- else if eq $protocol "pvc" }}
 {{- $parsedArtifacts := regexSplit "/" $path -1 -}}
@@ -233,7 +233,7 @@ context is a pdSpec
     {{- toYaml .pdSpec.volumes | nindent 4 }}
   {{- end -}}
   {{ include "llm-d-modelservice.mountModelVolumeVolumes" .Values.modelArtifacts | nindent 4}}
-{{- end }} 
+{{- end }}
 
 {{/*
 Container elements of deployment/lws spec template
@@ -257,9 +257,9 @@ context is a dict with helm root context plus:
     {{- toYaml . | nindent 2 }}
   {{- end }}
   args:
-  - {{ .Values.routing.modelName | quote }}
-  - --port
-  - {{ (include "llm-d-modelservice.vllmPort" .) | quote }}
+  # - {{ .Values.routing.modelName | quote }}
+  # - --port
+  # - {{ (include "llm-d-modelservice.vllmPort" .) | quote }}
   {{- with .container.args }}
     {{- toYaml . | nindent 2 }}
   {{- end }}
@@ -270,12 +270,6 @@ context is a dict with helm root context plus:
   {{- with .container.env }}
     {{- toYaml . | nindent 2 }}
   {{- end }}
-  - name: DP_SIZE
-    value: {{ include "llm-d-modelservice.tensorParallelism" .parallelism | quote }}
-  - name: TP_SIZE
-    value: {{ include "llm-d-modelservice.dataParallelism" .parallelism | quote }}
-  - name: DP_SIZE_LOCAL
-    value: "1"
   {{- /* insert envs based on what modelArtifact prefix */}}
   {{- if .container.mountModelVolume }}
   - name: HF_HOME
@@ -287,6 +281,10 @@ context is a dict with helm root context plus:
         name: {{ . }}
         key: HF_TOKEN
   {{- end }}
+  {{- end }}
+  {{- with .container.ports }}
+  ports:
+    {{- toYaml . | nindent 2 }}
   {{- end }}
   {{- with .container.livenessProbe }}
   livenessProbe:
