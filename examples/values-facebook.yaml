@@ -26,6 +26,8 @@ routing:
   inferencePool:
     create: true
 
+  # InfereceModel is required for Kgateway but not Istio
+  # enabling creation ensures it works for both kind of gateways
   inferenceModel:
     create: true
 
