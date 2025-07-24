@@ -7,6 +7,9 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "llm-d-modelservice.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": post-install
+
 spec:
   {{- with .Values.routing.parentRefs }}
   parentRefs:

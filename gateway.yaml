@@ -1,0 +1,95 @@
+# helm template inference-gateway charts/llm-d-infra > manifest.yaml
+# removed Ingress
+---
+# Source: llm-d-infra/templates/gateway-infrastructure/gateway.yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: inference-gateway-inference-gateway
+  labels:
+    app.kubernetes.io/name: llm-d-infra
+    helm.sh/chart: llm-d-infra-1.0.7
+    app.kubernetes.io/instance: inference-gateway
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: "0.1"
+    app.kubernetes.io/gateway: inference-gateway-inference-gateway
+    app.kubernetes.io/component: inference-gateway
+spec:
+  gatewayClassName: "kgateway"
+  listeners:
+    - name: default
+      port: 8080
+      protocol: HTTP
+  infrastructure:
+    parametersRef:
+      name: inference-gateway-inference-gateway
+      group: gateway.kgateway.dev
+      kind: GatewayParameters
+---
+# Source: llm-d-infra/templates/gateway-infrastructure/gatewayparameters.yaml
+apiVersion: gateway.kgateway.dev/v1alpha1
+kind: GatewayParameters
+metadata:
+  name: inference-gateway-inference-gateway
+  labels:
+    app.kubernetes.io/name: llm-d-infra
+    helm.sh/chart: llm-d-infra-1.0.7
+    app.kubernetes.io/instance: inference-gateway
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: "0.1"
+    app.kubernetes.io/gateway: inference-gateway-inference-gateway
+    app.kubernetes.io/component: inference-gateway
+spec:
+  kube:
+    envoyContainer:
+      securityContext:
+        allowPrivilegeEscalation: false
+        readOnlyRootFilesystem: true
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      bootstrap:
+        componentLogLevels:
+          upstream: debug
+          http: debug
+          connection: debug
+        logLevel: info
+    service:
+      type: "NodePort"
+      extraLabels:
+        gateway: custom
+    podTemplate:
+      extraLabels:
+        gateway: custom
+    sdsContainer:
+      securityContext:
+        allowPrivilegeEscalation: false
+        readOnlyRootFilesystem: true
+        seccompProfile:
+          type: RuntimeDefault
+
+
+# apiVersion: gateway.networking.k8s.io/v1
+# kind: Gateway
+# metadata:
+#   name: inference-gateway-inference-gateway
+# spec:
+#   gatewayClassName: kgateway
+#   infrastructure:
+#     parametersRef:
+#       group: gateway.kgateway.dev
+#       kind: GatewayParameters
+#       name: inference-gateway-params
+#   listeners:
+#   - name: http
+#     port: 8000
+#     protocol: HTTP
+# ---
+# apiVersion: gateway.kgateway.dev/v1alpha1
+# kind: GatewayParameters
+# metadata:
+#   name: inference-gateway-params
+# spec:
+#   kube:
+#     service:
+#       type: NodePort
